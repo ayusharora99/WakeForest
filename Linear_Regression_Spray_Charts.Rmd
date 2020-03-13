@@ -1,0 +1,142 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+middle <- read.csv("~/Documents/Wake_Forest/middle_linear_regression.csv")
+ss <- read.csv("~/Documents/Wake_Forest/SS_linear_regression.csv")
+three_four_hole <- read.csv("~/Documents/Wake_Forest/3_4_linear_regression.csv")
+first_base <- read.csv("~/Documents/Wake_Forest/1B_linear_regression.csv")
+five_six_hole <- read.csv("~/Documents/Wake_Forest/5_6_linear_regression.csv")
+second_base <- read.csv("~/Documents/Wake_Forest/2B_linear_regression.csv")
+third_base <- read.csv("~/Documents/Wake_Forest/3B_linear_regression.csv")
+```
+
+```{r}
+middle$hc_x = tan((middle$Direction)*(pi/180)) * middle$LastTrackedDistance
+middle$hc_y = middle$LastTrackedDistance
+
+ss$hc_x = tan((ss$Direction)*(pi/180)) * ss$LastTrackedDistance
+ss$hc_y = ss$LastTrackedDistance
+
+three_four_hole$hc_x = tan((three_four_hole$Direction)*(pi/180)) * three_four_hole$LastTrackedDistance
+three_four_hole$hc_y = three_four_hole$LastTrackedDistance
+
+first_base$hc_x = tan((first_base$Direction)*(pi/180)) * first_base$LastTrackedDistance
+first_base$hc_y = first_base$LastTrackedDistance
+
+five_six_hole$hc_x = tan((five_six_hole$Direction)*(pi/180)) * five_six_hole$LastTrackedDistance
+five_six_hole$hc_y = five_six_hole$LastTrackedDistance
+
+second_base$hc_x = tan((second_base$Direction)*(pi/180)) * second_base$LastTrackedDistance
+second_base$hc_y = second_base$LastTrackedDistance
+
+third_base$hc_x = tan((third_base$Direction)*(pi/180)) * third_base$LastTrackedDistance
+third_base$hc_y = third_base$LastTrackedDistance
+
+```
+
+```{r}
+spray_chart = function(...){
+
+  ggplot(...) + 
+
+    geom_curve(x = -270, xend = 260, y = 310, yend = 305, curvature = -0.45) + 
+
+    geom_segment(x = -270, xend = 0, y = 310, yend = 0) +
+
+    geom_segment(x =  260, xend = 0, y = 310, yend = 0) + 
+
+    geom_curve(x = -70, xend = 70, y = 95, yend = 95, curvature = -0.50, linetype = "dotted") +
+
+    coord_fixed() +
+
+   scale_x_continuous(NULL, limits = c(-300,300)) + 
+
+   scale_y_continuous(NULL, limits = c(-25,500))
+
+}
+```
+
+```{r}
+middle_lr = spray_chart(middle, aes(x = hc_x, y = hc_y, color = hit_prob)) +
+  geom_point()+
+  ggtitle('Middle Linear Regression ')
+
+ggsave("middle_linreg.png")
+middle_lr
+```
+
+```{r}
+ss_lr = spray_chart(ss, aes(x = hc_x, y = hc_y, color = hit_prob)) +
+  geom_point()+
+  ggtitle('SS Linear Regression ')
+
+ggsave("ss_linreg.png")
+ss_lr
+```
+
+```{r}
+three_four_hole_lr = spray_chart(three_four_hole, aes(x = hc_x, y = hc_y, color = hit_prob)) +
+  geom_point()+
+  ggtitle('3-4 Hole Linear Regression ')
+
+ggsave("3_4_linreg.png")
+three_four_hole_lr
+```
+
+```{r}
+first_base_lr = spray_chart(first_base, aes(x = hc_x, y = hc_y, color = hit_prob)) +
+  geom_point()+
+  ggtitle('1B Linear Regression ')
+
+ggsave("1B_linreg.png")
+first_base_lr
+```
+
+```{r}
+five_six_hole_lr = spray_chart(five_six_hole, aes(x = hc_x, y = hc_y, color = hit_prob)) +
+  geom_point()+
+  ggtitle('5-6 Hole Linear Regression ')
+
+ggsave("5_6_linreg.png")
+five_six_hole_lr
+```
+
+```{r}
+second_base_lr = spray_chart(second_base, aes(x = hc_x, y = hc_y, color = hit_prob)) +
+  geom_point()+
+  ggtitle('2B Linear Regression ')
+
+ggsave("2B_linreg.png")
+second_base_lr
+```
+
+```{r}
+third_base_lr = spray_chart(third_base, aes(x = hc_x, y = hc_y, color = hit_prob)) +
+  geom_point()+
+  ggtitle('3B Linear Regression ')
+
+ggsave("3B_linreg.png")
+third_base_lr
+```
+
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
