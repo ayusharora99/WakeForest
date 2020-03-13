@@ -1,0 +1,218 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+```
+
+
+```{r}
+#Cluster_Means = read.csv('~/Documents/Wake_Forest/Cluster_Means_Bearing.csv')
+cluster_0 <- read.csv("~/Documents/Wake_Forest/cluster_0.csv")
+cluster_1 <- read.csv("~/Documents/Wake_Forest/cluster_1.csv")
+cluster_2 <- read.csv("~/Documents/Wake_Forest/cluster_2.csv")
+cluster_3 <- read.csv("~/Documents/Wake_Forest/cluster_3.csv")
+cluster_4 <- read.csv("~/Documents/Wake_Forest/cluster_4.csv")
+cluster_5 <- read.csv("~/Documents/Wake_Forest/cluster_5.csv")
+cluster_6 <- read.csv("~/Documents/Wake_Forest/cluster_6.csv")
+#cluster_7 <- read.csv("~/Documents/Wake_Forest/cluster_7.csv")
+#cluster_8 <- read.csv("~/Documents/Wake_Forest/cluster_8.csv")
+#cluster_9 <- read.csv("~/Documents/Wake_Forest/cluster_9.csv")
+
+```
+
+```{r}
+#Cluster_Means$hc_x = tan((Cluster_Means$Bearing)*(pi/180)) * Cluster_Means$Last.Tracked.Distance
+#Cluster_Means$hc_y = Cluster_Means$Last.Tracked.Distance
+
+cluster_0$hc_x = tan((cluster_0$Direction)*(pi/180)) * cluster_0$LastTrackedDistance
+cluster_0$hc_y = cluster_0$LastTrackedDistance
+
+cluster_1$hc_x = tan((cluster_1$Direction)*(pi/180)) * cluster_1$LastTrackedDistance
+cluster_1$hc_y = cluster_1$LastTrackedDistance
+
+cluster_2$hc_x = tan((cluster_2$Direction)*(pi/180)) * cluster_2$LastTrackedDistance
+cluster_2$hc_y = cluster_2$LastTrackedDistance
+
+cluster_3$hc_x = tan((cluster_3$Direction)*(pi/180)) * cluster_3$LastTrackedDistance
+cluster_3$hc_y = cluster_3$LastTrackedDistance
+
+cluster_4$hc_x = tan((cluster_4$Direction)*(pi/180)) * cluster_4$LastTrackedDistance
+cluster_4$hc_y = cluster_4$LastTrackedDistance
+
+cluster_5$hc_x = tan((cluster_5$Direction)*(pi/180)) * cluster_5$LastTrackedDistance
+cluster_5$hc_y = cluster_5$LastTrackedDistance
+
+cluster_6$hc_x = tan((cluster_6$Direction)*(pi/180)) * cluster_6$LastTrackedDistance
+cluster_6$hc_y = cluster_6$LastTrackedDistance
+
+cluster_7$hc_x = tan((cluster_7$Direction)*(pi/180)) * cluster_7$LastTrackedDistance
+cluster_7$hc_y = cluster_7$LastTrackedDistance
+
+cluster_8$hc_x = tan((cluster_8$Direction)*(pi/180)) * cluster_8$LastTrackedDistance
+cluster_8$hc_y = cluster_8$LastTrackedDistance
+
+cluster_9$hc_x = tan((cluster_9$Direction)*(pi/180)) * cluster_9$LastTrackedDistance
+cluster_9$hc_y = cluster_9$LastTrackedDistance
+```
+
+```{r}
+
+```
+
+
+```{r}
+ggplot(Cluster_Means, aes(x = hc_x, y = hc_y, color = Play.Result))+
+  geom_point()
+```
+
+```{r}
+#spray_chart = function(...){
+#  ggplot(...) + 
+#    geom_curve(x = -225, xend = 225, y = 310, yend = 300, curvature = -0.45) + 
+#    geom_segment(x = -225, xend = 0, y = 310, yend = 0) +
+#    geom_segment(x =  225, xend = 0, y = 300, yend = 0) + 
+#    geom_curve(x = -65, xend = 65, y = 95, yend = 95, curvature = -0.50, linetype = "dotted") +
+#    coord_fixed() +
+#    scale_x_continuous(NULL, limits = c(-300,300)) + 
+#    scale_y_continuous(NULL, limits = c(-25,500))
+#}
+
+spray_chart = function(...){
+
+  ggplot(...) + 
+
+    geom_curve(x = -270, xend = 260, y = 310, yend = 305, curvature = -0.45) + 
+
+    geom_segment(x = -270, xend = 0, y = 310, yend = 0) +
+
+    geom_segment(x =  260, xend = 0, y = 310, yend = 0) + 
+
+    geom_curve(x = -70, xend = 70, y = 95, yend = 95, curvature = -0.50, linetype = "dotted") +
+
+    coord_fixed() +
+
+   scale_x_continuous(NULL, limits = c(-300,300)) + 
+
+   scale_y_continuous(NULL, limits = c(-25,500))
+
+}
+```
+
+```{r}
+all_spray_chart = spray_chart(Cluster_Means, aes(x = hc_x, y = hc_y, color = Play.Result)) +
+  geom_point()+
+  geom_text(label = Cluster_Means$X)
+  ggtitle('Cluster Spray Chart')
+
+```
+
+```{r}
+
+ggsave("cluster_spray_chart.png")
+all_spray_chart
+# label the cluster points 
+```
+```{r}
+cluster_0_chart = spray_chart(cluster_0, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 0 Spray Chart')
+
+ggsave("cluster_0_spray_chart.png")
+cluster_0_chart
+ 
+# List % of balls in Cluster 0 / All clusters
+# List hit prob of balls in Cluster 0 as hits / hits + outs 
+```
+
+```{r}
+cluster_1_chart = spray_chart(cluster_1, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 1 Spray Chart')
+ggsave("cluster_1_spray_chart.png")
+cluster_1_chart
+```
+
+```{r}
+cluster_2_chart = spray_chart(cluster_2, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 2 Spray Chart')
+ggsave("cluster_2_spray_chart.png")
+cluster_2_chart
+```
+
+```{r}
+cluster_3_chart = spray_chart(cluster_3, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 3 Spray Chart')
+ggsave("cluster_3_spray_chart.png")
+cluster_3_chart
+```
+
+```{r}
+cluster_4_chart = spray_chart(cluster_4, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 4 Spray Chart')
+ggsave("cluster_4_spray_chart.png")
+cluster_4_chart
+```
+
+```{r}
+cluster_5_chart = spray_chart(cluster_5, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 5 Spray Chart')
+ggsave("cluster_5_spray_chart.png")
+cluster_5_chart
+```
+
+```{r}
+cluster_6_chart = spray_chart(cluster_6, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 6 Spray Chart')
+ggsave("cluster_6_spray_chart.png")
+cluster_6_chart
+```
+
+```{r}
+cluster_7_chart = spray_chart(cluster_7, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 7 Spray Chart')
+ggsave("cluster_7_spray_chart.png")
+cluster_7_chart
+```
+
+```{r}
+cluster_8_chart = spray_chart(cluster_8, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 8 Spray Chart')
+ggsave("cluster_8_spray_chart.png")
+cluster_8_chart
+```
+
+```{r}
+cluster_9_chart = spray_chart(cluster_9, aes(x = hc_x, y = hc_y, color = PlayResult)) +
+  geom_point()+
+  ggtitle('Cluster 9 Spray Chart')
+ggsave("cluster_9_spray_chart.png")
+cluster_9_chart
+```
+
+
+
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
